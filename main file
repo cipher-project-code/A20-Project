@@ -1,0 +1,247 @@
+MAX_KEY_SIZE = 26
+from random import seed
+from random import randint
+alpha = "abcdefghijklmnopqrstuvwxyz" 
+
+#define whether to encyrpt or decrypt
+def getMode():
+  while True:
+      print('Do you wish to encrypt or decrypt a message?')
+      mode = input().lower()
+      if mode in 'encrypt decrypt'.split():
+        return mode
+      else:
+          print ('Enter either "encrypt" or "decrypt".')
+
+#get message that we want to crypt
+def getMessage():
+  print ('Enter your message:')
+  return input()
+
+#pick the cipher(s)
+def getCipher():
+  while True:
+    print ('Which cipher would you like to use? \n A= Ceasar Cipher \n B= Four Square Cipher \n C= Numerical Cipher \n D= Columnar Transposition Cipher')
+    cipher = input().upper()
+    if cipher in 'A B C D'.split():
+      return cipher
+    else:
+      print ('Enter cipher which to use.')
+
+#key for ceasar cipher
+def getKey_ceasar():
+  key_c = 0
+  while True:
+      print ("Enter the key number (1-26)")
+      key_c = int(input())
+      if (key_c >= 1 and key_c <= MAX_KEY_SIZE):
+        return key_c
+      else:
+          print ("Enter a different key number between 1 and 26.")
+
+#key for FS cipherge
+def get_FSkey(key_input, alphabet):
+	key = []
+	for char in key_input:
+		if char in alphabet and char not in key:
+			key.append(char)
+	for char in alphabet:
+		if char not in key: 
+			key.append(char)
+	return key
+
+#generation of matrix for FS cipher
+def gen_matrix(key):
+	matrix = []
+	counter = 0
+	for xcounter in xrange(5):
+		x = []
+		for ycounter in xrange(5):
+			x.append(key[counter])
+			counter += 1
+		matrix.append(x)
+	return matrix
+
+def get_coords(digraph, key_matrix):
+	coords = []
+	for char in digraph:
+		for x in xrange(5):
+			for y in xrange(5):
+				if key_matrix[x][y] == char:
+					coords.append((x,y))
+	return coords
+					
+#output of the ciphers 
+def getOutput(mode, message, key):
+  if mode[0] == 'encrypt':
+    translated = new_str
+
+def getCeasar():
+  shift_key = getKey_ceasar()    
+  given_str_length = len(message)
+  new_str = ""
+  if shift_key == ((1 > shift_key)): 
+    print("The shift number must be greater than or equal to 1 remember")                 
+  else: 
+    for i in range(given_str_length):
+      if ((i == ' ')): 
+        new_str = new_str + ' '      
+      else:
+        char = message[i]
+        letter_loc = alpha.find(char) 
+        new_loc = (letter_loc + shift_key) % 26
+        new_str = new_str + alpha[new_loc] 
+  return(new_str)
+
+def getFS():
+	print("Enter Key1:")
+	key1 = raw_input().upper()
+
+	print("Enter Key2:")
+	key2 = raw_input().upper()
+      
+def getAB(message: str):    
+  reversed = all_letters[::-1]
+  cipher = ""
+  given_str_length = len(message) 
+  for i in range(given_str_length):
+      char =  message[i] 
+      letter_loc = alpha.find(char) 
+      new_letter = len[letter_loc] in reversed
+      cipher = cipher + alpha[new_letter]      
+  return(cipher)
+
+
+def getROT13():
+  shift_key = 13   
+  given_str_length = len(message)
+  new_str = "" 
+  for i in range(given_str_length):
+    if ((i == ' ')): 
+      new_str = new_str + ' '      
+    else:
+      char = message[i]
+      letter_loc = alpha.find(char) 
+      new_loc = (letter_loc + shift_key) % 26
+      new_str = new_str + alpha[new_loc] 
+  return(new_str)
+
+   
+def encode1():
+  get_msg = input("Write a message to encode (only letters): ").lower()
+  num1 = input("Enter an integer number: ")
+  num2 = input("Enter an integer number: ")
+  num3 = input("Enter an integer number: ")
+  encode1.coder = ((int(num2)**2) - 4*int(num1)* int(num3))
+  encode1.alpha_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+  encode1.new_msg = ''
+  for i in get_msg:
+      if i == " ":
+          encode1.new_msg += " "
+      else:
+          shift = (encode1.alpha_list.index(i))+ encode1.coder
+          encode1.new_msg += encode1.alpha_list[shift]
+  return encode1.new_msg
+
+def encode2():
+  get_msg = input("Enter a message: ")
+  keyword = input("Choose a word less than or equal to four: ")
+  key_list = (list(keyword))
+  OG_list = list(get_msg)
+  new_list = []
+  
+  col = len(keyword) #number of columns
+  row = ((len(get_msg))// col) #number of rows
+    
+   #creating a list for each key using columns
+  while col != 0:
+      for i in range(len(OG_list)):
+          if (i % col) == 0:
+              new_list.extend(OG_list[i])
+      del OG_list[::col]
+      col = col - 1
+    
+    #splitting list according to row
+  col = len(keyword)
+  ultimate_list = [new_list[x:x+row] for x in range(0, len(new_list),row)]
+    
+    
+    #use key_list and ultimate_list to create a dict
+  dictionary = dict(zip(key_list, ultimate_list))
+     #https://stackoverflow.com/questions/209840/convert-two-lists-into-a-dictionary
+    
+    
+    #sort dict by key
+  dict_list = []
+  for i in sorted (dictionary) :
+      sorted_dict = list((((i, dictionary[i]))))
+      dict_list.append(sorted_dict)
+ 
+    #extract letters in order to return a str
+  phrase_list = [item[1] for item in dict_list]
+  separated_phrase = ([''.join(x) for x in phrase_list])
+  joined_phrase = "".join( x for x in separated_phrase)
+  return joined_phrase
+
+def decode1():   
+    OG_msg = ''
+    for i in encode1.new_msg:
+        if i == " ":
+            OG_msg += " "
+        else:
+            shift = (encode1.alpha_list.index(i)) - encode1.coder
+            OG_msg += encode1.alpha_list[shift] 
+    return OG_msg
+
+
+def getKey():
+  key = 0
+  while True:
+    if cipher[:] == 'A':
+      key = getKey_ceasar()
+      return key
+    if cipher[:] == 'B':
+      key = getKey_FS()
+      return key
+    if cipher[:] == 'C':
+      key = 'no key'
+      return key
+    if cipher[:] == 'D':
+      key = 13
+      return key
+
+def getOutput(mode, message, key):
+  if mode[0] == 'encrypt':
+    translated = ''
+    message = (new_str)
+
+mode = getMode() # used to figure out if should decode or encode 
+cipher = getCipher()
+# used to figure out which cipher(s) the user wants to use 
+message = getMessage() # input string of message 
+key = getKey()
+if mode[0] == 'encrypt':
+  if cipher[:] == 'A':
+    key = getKey_ceasar()
+    A = getCeasar()
+  if cipher[:] == 'B':
+    key = getKey_FS()
+    B = getFS()
+  if cipher[:] == 'C':
+    C = getAB()
+  if cipher[:] == 'D':
+    D = getROT13()
+if mode[0] == 'decrypt':
+  if cipher[:] == 'A':
+    key = getKey_ceasar()
+    A = getCeasar_d()
+  if cipher[:] == 'B':
+    key = getKey_FS()
+    B = getFS_d()
+  if cipher[:] == 'C':
+    C = getAB_d()
+  if cipher[:] == 'D':
+    D = getROT13_d()
+
+
+print(getOutput(mode, message, key))
